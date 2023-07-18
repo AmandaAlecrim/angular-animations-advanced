@@ -11,6 +11,7 @@ import {
   filterTrigger,
   formButtonTrigger,
   flyInOutTrigger,
+  shakeTrigger,
 } from '../animations';
 
 @Component({
@@ -24,11 +25,12 @@ import {
     filterTrigger,
     formButtonTrigger,
     flyInOutTrigger,
+    shakeTrigger,
   ],
 })
 export class ListaTarefasComponent implements OnInit {
   listaTarefas: Tarefa[] = [];
-  formAberto: boolean = true;
+  formAberto: boolean = false;
   categoria: string = '';
   validado: boolean = false;
   indexTarefa: number = -1;

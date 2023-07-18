@@ -9,6 +9,8 @@ import {
   shownStateTrigger,
   checkButtonTrigger,
   filterTrigger,
+  formButtonTrigger,
+  flyInOutTrigger,
 } from '../animations';
 
 @Component({
@@ -20,11 +22,13 @@ import {
     shownStateTrigger,
     checkButtonTrigger,
     filterTrigger,
+    formButtonTrigger,
+    flyInOutTrigger,
   ],
 })
 export class ListaTarefasComponent implements OnInit {
   listaTarefas: Tarefa[] = [];
-  formAberto: boolean = false;
+  formAberto: boolean = true;
   categoria: string = '';
   validado: boolean = false;
   indexTarefa: number = -1;
@@ -36,8 +40,8 @@ export class ListaTarefasComponent implements OnInit {
     id: [0],
     descricao: ['', Validators.required],
     statusFinalizado: [false, Validators.required],
-    categoria: ['', Validators.required],
-    prioridade: ['', Validators.required],
+    categoria: ['Casa', Validators.required],
+    prioridade: ['Alta', Validators.required],
   });
 
   constructor(

@@ -8,8 +8,9 @@ import {
   filterTrigger,
   formButtonTrigger,
   highlightedStateTrigger,
+  listStateTrigger,
   shakeTrigger,
-  shownStateTrigger
+  shownStateTrigger,
 } from '../animations';
 import { Subscription } from 'rxjs';
 
@@ -23,8 +24,9 @@ import { Subscription } from 'rxjs';
     checkButtonTrigger,
     filterTrigger,
     formButtonTrigger,
-    shakeTrigger
-  ]
+    shakeTrigger,
+    listStateTrigger,
+  ],
 })
 export class ListaTarefasComponent implements OnInit {
   listaTarefas: Tarefa[] = [];
@@ -35,8 +37,8 @@ export class ListaTarefasComponent implements OnInit {
   id: number = 0;
   campoBusca = '';
   tarefasFiltradas: Tarefa[] = [];
-  tarefasSubscription: Subscription = new Subscription;
-  estadoBotao: string = 'unchecked'
+  tarefasSubscription: Subscription = new Subscription();
+  estadoBotao: string = 'unchecked';
 
   formulario: FormGroup = this.fomBuilder.group({
     id: [0],
@@ -52,18 +54,19 @@ export class ListaTarefasComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.service.listar()
-    this.tarefasSubscription = this.service.tarefas$.subscribe(tarefas => {
+    this.service.listar();
+    this.tarefasSubscription = this.service.tarefas$.subscribe((tarefas) => {
       this.listaTarefas = tarefas;
       this.tarefasFiltradas = tarefas;
-    })
+    });
   }
 
   filtrarTarefasPorDescricao(descricao: string) {
     this.campoBusca = descricao.trim().toLowerCase();
     if (descricao) {
-      this.tarefasFiltradas = this.listaTarefas.filter(tarefa =>
-        tarefa.descricao.toLowerCase().includes(this.campoBusca));
+      this.tarefasFiltradas = this.listaTarefas.filter((tarefa) =>
+        tarefa.descricao.toLowerCase().includes(this.campoBusca)
+      );
     } else {
       this.tarefasFiltradas = this.listaTarefas;
     }
@@ -82,25 +85,25 @@ export class ListaTarefasComponent implements OnInit {
     }
   }
 
-  criarTarefa() : void {
-    if(this.formulario.valid) {
+  criarTarefa(): void {
+    if (this.formulario.valid) {
       const novaTarefa: Tarefa = this.formulario.value;
-      this.service.criar(novaTarefa)
+      this.service.criar(novaTarefa);
       this.resetarFormulario();
     }
   }
 
   editarTarefa(): void {
-    if(this.formulario.valid) {
+    if (this.formulario.valid) {
       const tarefaEditada: Tarefa = this.formulario.value;
-      this.service.editar(tarefaEditada, true)
+      this.service.editar(tarefaEditada, true);
     }
     this.resetarFormulario();
   }
 
   excluirTarefa(id: number): void {
     if (id) {
-      this.service.excluir(id)
+      this.service.excluir(id);
     }
   }
 
@@ -132,12 +135,12 @@ export class ListaTarefasComponent implements OnInit {
   }
 
   finalizarTarefa(tarefa: Tarefa) {
-    this.id = tarefa.id
-    this.service.atualizarStatusTarefa(tarefa)
-    if(tarefa.statusFinalizado == true) {
-      this.estadoBotao = 'checked'
+    this.id = tarefa.id;
+    this.service.atualizarStatusTarefa(tarefa);
+    if (tarefa.statusFinalizado == true) {
+      this.estadoBotao = 'checked';
     } else {
-      this.estadoBotao = 'unchecked'
+      this.estadoBotao = 'unchecked';
     }
   }
 
